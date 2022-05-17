@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SignalR Sample</title>
+    <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="lib/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        async function setupSignalR() {
+            const connection = new signalR.HubConnectionBuilder()
+                .configureLogging(signalR.LogLevel.Trace)
+                .withUrl("/chat")
+                .build();
+
+            connection.on('messageToAll', (name, message) => {
+                console.log(message);
+                document.getElementById('output').innerHTML += `message from ${name}: ${message}<br />`;
+            });
+
+            await connection.start();
+
+            document.getElementById('sendButton').addEventListener('click', async function () {
+                let name = document.getElementById('name').value;
+                let message = document.getElementById('message').value;
+
+                await connection.invoke('sendMessage', name, message);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", setupSignalR);
+    </script>
+    <div class="container">
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="name">Name:</label>
+            <input class="form-control" type="text" id="name" />
+        </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="name">Message:</label>
+            <input class="form-control" type="text" id="message" />
+        </div>
+
+       <div class="input-group">
+           <button id="sendButton" class="btn btn-outline-primary">send</button>
+       </div>
+        <output id="output"></output>
+    </div>
+
+</body>
+</html>
