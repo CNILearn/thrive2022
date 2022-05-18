@@ -10,5 +10,4 @@ public class ChatHub : Hub
         string encMessage = HtmlEncoder.Default.Encode(message);
         await Clients.All.SendAsync("MessageToAll", name, message);
     }
-
 }

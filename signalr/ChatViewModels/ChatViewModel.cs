@@ -11,9 +11,9 @@ namespace ChatViewModels;
 [ObservableObject]
 public partial class ChatViewModel
 {
-    protected HubConnection? _hubConnection;
+    private HubConnection? _hubConnection;
     private string _chatUrl;
-    protected readonly IMessageDialog _dialogService;
+    private readonly IMessageDialog _dialogService;
 
     public ChatViewModel(IOptions<SignalROptions> options, IMessageDialog dialogService)
     {
@@ -23,7 +23,8 @@ public partial class ChatViewModel
 
     public ObservableCollection<string> Messages { get; } = new ();
 
-    protected virtual async Task ConnectSignalRAsync()
+    [ICommand]
+    private async Task ConnectAsync()
     {
         if (_hubConnection is not null)
         {
@@ -41,12 +42,6 @@ public partial class ChatViewModel
         });
 
         await _hubConnection.StartAsync();
-    }
-
-    [ICommand]
-    private async Task ConnectAsync()
-    {
-        await ConnectSignalRAsync();
         await _dialogService.ShowMessageAsync("Connected to SignalR");
     }
 

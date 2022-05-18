@@ -1,4 +1,6 @@
-﻿using Windows.UI.Popups;
+﻿using Microsoft.UI.Xaml;
+
+using Windows.UI.Popups;
 
 using WinRT.Interop;
 
@@ -9,7 +11,8 @@ internal class WinUIMessageDialog : IMessageDialog
     public async Task ShowMessageAsync(string message)
     {
         MessageDialog dlg = new(message);
-        InitializeWithWindow.Initialize(dlg, WindowNative.GetWindowHandle(this));
+        IntPtr hWnd = WindowNative.GetWindowHandle((Application.Current as App).MainWindow);
+        InitializeWithWindow.Initialize(dlg, hWnd);
         await dlg.ShowAsync();
     }
 }

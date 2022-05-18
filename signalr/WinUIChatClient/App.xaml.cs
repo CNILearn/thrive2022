@@ -47,10 +47,12 @@ public partial class App : Application
                 .AddScoped<GroupChatViewModel>()
                 .AddTransient<IMessageDialog, WinUIMessageDialog>()
                 .BuildServiceProvider());
+
         _window = new MainWindow();
         _window.Activate();
     }
 
     private Window _window;
+    public Window MainWindow => _window;
 }
     

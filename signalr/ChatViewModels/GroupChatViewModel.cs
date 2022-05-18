@@ -8,19 +8,24 @@ using System.Collections.ObjectModel;
 
 namespace ChatViewModels;
 
-public partial class GroupChatViewModel : ChatViewModel
+[ObservableObject]
+public partial class GroupChatViewModel
 {
     private readonly string _groupUrl;
+    private HubConnection? _hubConnection;
+    private readonly IMessageDialog _dialogService;
 
     public GroupChatViewModel(IOptions<SignalROptions> options, IMessageDialog dialogService)
-        : base(options, dialogService)
     {
+        _dialogService = dialogService;
         _groupUrl = options.Value.GroupChatUrl ?? "https://localhost:5001/groupchat";
     }
 
     public ObservableCollection<string> Groups { get; } = new();
+    public ObservableCollection<string> Messages { get; } = new();
 
-    protected override async Task ConnectSignalRAsync()
+    [ICommand]
+    private async Task ConnectAsync()
     {
         if (_hubConnection is not null)
         {
@@ -32,12 +37,13 @@ public partial class GroupChatViewModel : ChatViewModel
             .WithUrl(_groupUrl)
             .Build();
 
-        _hubConnection.On("MessageToGroup", (string group, string name, string message) =>
+        _hubConnection.On("MessageToGroup", (string name, string group, string message) =>
         {
             Messages.Add($"{group}-{name}: {message}");
         });
 
         await _hubConnection.StartAsync();
+        await _dialogService.ShowMessageAsync("Connected to SignalR");
     }
 
     [ICommand]
@@ -53,7 +59,7 @@ public partial class GroupChatViewModel : ChatViewModel
         {
             if (NewGroup is not null)
             {
-                await _hubConnection.InvokeAsync("AddGroup", NewGroup);
+                await _hubConnection.InvokeAsync("JoinGroup", NewGroup);
                 Groups.Add(NewGroup);
                 SelectedGroup = NewGroup;
             }
@@ -87,10 +93,27 @@ public partial class GroupChatViewModel : ChatViewModel
         }
     }
 
+    [ICommand]
+    protected async Task SendMessageAsync()
+    {
+        if (_hubConnection is null)
+        {
+            await _dialogService.ShowMessageAsync("Connection not initialized");
+            return;
+        }
+        await _hubConnection.SendAsync("SendMessageToGroup", _name, _selectedGroup, _message);
+    }
+
     [ObservableProperty]
     private string? _newGroup;
 
     [ObservableProperty]
     private string? _selectedGroup;
 
+
+    [ObservableProperty]
+    protected string? _name;
+
+    [ObservableProperty]
+    protected string? _message;
 }
