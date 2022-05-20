@@ -32,10 +32,15 @@
 
         document.addEventListener("DOMContentLoaded", setupSignalR);
     </script>
+    <h1>Group Chat Client for Thrive in Slovenia</h1>
+
     <div class="container">
         <div class="input-group mb-3">
             <label class="input-group-text" for="name">Name:</label>
             <input class="form-control" type="text" id="name" />
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="group">Group Name</label>
         </div>
 
         <div class="input-group mb-3">
@@ -43,11 +48,10 @@
             <input class="form-control" type="text" id="message" />
         </div>
 
-       <div class="input-group">
-           <button id="sendButton" class="btn btn-outline-primary">send</button>
-       </div>
+        <div class="input-group">
+            <button id="sendButton" class="btn btn-outline-primary">send</button>
+        </div>
         <output id="output"></output>
     </div>
-
 </body>
 </html>

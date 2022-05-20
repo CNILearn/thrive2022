@@ -3,7 +3,7 @@ global using ChatSample;
 global using ChatSample.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(); //.AddAzureSignalR();
 builder.Services.AddSingleton<GroupNamesService>();
 var app = builder.Build();
 app.UseStaticFiles();
