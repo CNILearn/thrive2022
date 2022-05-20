@@ -34,6 +34,6 @@ public class GroupChatHub : Hub
         string encName = HtmlEncoder.Default.Encode(name);
         string encMessage = HtmlEncoder.Default.Encode(message);
         string encGroup = HtmlEncoder.Default.Encode(group);
-        await Clients.Group(group).SendAsync("MessageToGroup", name, group, message);
+        await Clients.Group(group).SendAsync("MessageToGroup", encName, encGroup, encMessage);
     }
 }

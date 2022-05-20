@@ -8,6 +8,6 @@ public class ChatHub : Hub
     {
         string encName = HtmlEncoder.Default.Encode(name);
         string encMessage = HtmlEncoder.Default.Encode(message);
-        await Clients.All.SendAsync("MessageToAll", name, message);
+        await Clients.All.SendAsync("MessageToAll", name, encMessage);
     }
 }
