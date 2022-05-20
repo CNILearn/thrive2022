@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "WinUIStreamingClient (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "WinUIStreamingClient (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
