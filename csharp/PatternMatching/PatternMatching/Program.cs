@@ -160,8 +160,10 @@ void ListPatternSample()
     Console.WriteLine("list patterns");
     int[] list1 = { 1, 2, 3 };
     int[] list2 = { 1, 2, 4, 5, 6, 9, 11, 5 };
+    int[] list3 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     Console.WriteLine(ListPattern(list1));
     Console.WriteLine(ListPattern(list2));
+    Console.WriteLine(ListPattern(list3));
     Console.WriteLine();
 }
 
