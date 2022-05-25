@@ -2,7 +2,7 @@
 
 My slides and code samples for the [Thrive Conference 2022](https://www.thriveconf.com/en/Pages/Home.aspx) in Slovenia
 
-[Chat App](https://thrive2022chat.purplebush-9a246700.westeurope.azurecontainerapps.io/chatlclient.html)
+[Chat App](https://thrive2022chat.purplebush-9a246700.westeurope.azurecontainerapps.io/chatclient.html)
 
 ## Slides
 
