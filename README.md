@@ -2,8 +2,6 @@
 
 My slides and code samples for the [Thrive Conference 2022](https://www.thriveconf.com/en/Pages/Home.aspx) in Slovenia
 
-[Chat App](https://thrive2022chat.purplebush-9a246700.westeurope.azurecontainerapps.io/chatclient.html)
-
 ## Slides
 
 [C# and .NET - What's new?](slides/CSharp2022.pdf)
@@ -22,5 +20,6 @@ My slides and code samples for the [Thrive Conference 2022](https://www.thriveco
 ## Code Samples SignalR
 
 * Chat with SignalR
-* Group Chat with SignalR
-* Async Streaming with SignalR
+* Group Chat with SignalR (console and WinUI client)
+* Blazor Server
+* Async Streaming with SignalR (console and WinUI client)
