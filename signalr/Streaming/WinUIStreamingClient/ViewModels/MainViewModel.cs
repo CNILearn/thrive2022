@@ -57,7 +57,7 @@ public partial class MainViewModel
             return pathSegments;
         }
 
-        if (_canvas is null) throw new InvalidOperationException("Intiailize Canvas first");
+        if (_canvas is null) throw new InvalidOperationException("Initialize Canvas first");
         _canvas.Children.Clear();
 
         try
