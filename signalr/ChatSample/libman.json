@@ -9,7 +9,8 @@
     },
     {
       "library": "bootstrap@5.1.3",
-      "destination": "wwwroot/lib/bootstrap"
+      "destination": "wwwroot/lib/bootstrap",
+      "files": ["dist/css/bootstrap.css", "dist/css/bootstrap.min.css", "dist/css/bootstrap.min.css.map" ]
     }
   ]
 }
