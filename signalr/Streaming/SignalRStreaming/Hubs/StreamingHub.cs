@@ -50,7 +50,7 @@ public class StreamingHub : Hub
     {
         for (int i = 0; i < 1000; i++)
         {
-            yield return new SensorData(i, Random.Shared.Next(40), DateTime.Now);
+            yield return new SensorData(i, Random.Shared.Next(20, 40), DateTime.Now);
             await Task.Delay(100, cancellationToken);
         }
     }
