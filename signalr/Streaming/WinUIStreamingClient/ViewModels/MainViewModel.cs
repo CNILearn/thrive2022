@@ -18,7 +18,7 @@ namespace WinUIStreamingClient.ViewModels;
 public partial class MainViewModel
 {
     private readonly SensorClient _sensorClient;
-    private readonly CancellationTokenSource _cancellationTokenSource = new();
+    private CancellationTokenSource _cancellationTokenSource = new();
     private Canvas? _canvas;
 
     public MainViewModel(SensorClient sensorClient)
@@ -60,6 +60,7 @@ public partial class MainViewModel
 
         if (_canvas is null) throw new InvalidOperationException("Initialize Canvas first");
         _canvas.Children.Clear();
+        _cancellationTokenSource = new();
 
         try
         {
