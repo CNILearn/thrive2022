@@ -10,6 +10,7 @@ using Shapes = Microsoft.UI.Xaml.Shapes;
 using WinUIStreamingClient.Core.Contracts.Services;
 using Microsoft.UI;
 using Windows.UI;
+using Windows.Foundation;
 
 namespace WinUIStreamingClient.ViewModels;
 
@@ -36,7 +37,7 @@ public partial class MainViewModel
     [ICommand]
     private async Task StartAsync()
     {
-        static PathSegmentCollection GetNewPath(Canvas canvas, int ix)
+        static PathSegmentCollection GetNewPath(Canvas canvas, Point startPoint, int ix)
         {
             Color[] colors =
             {
@@ -51,7 +52,7 @@ public partial class MainViewModel
             path.Stroke = new SolidColorBrush(colors[ix % 4]);
             path.StrokeThickness = 3;
             PathFigureCollection figures = new();
-            figures.Add(new PathFigure { Segments = pathSegments });
+            figures.Add(new PathFigure { Segments = pathSegments, StartPoint = startPoint });
             path.Data = new PathGeometry { Figures = figures };
             canvas.Children.Add(path);
             return pathSegments;
@@ -66,8 +67,8 @@ public partial class MainViewModel
             double multiplicator = height / 50;
 
             int colorNumber = 0;
-            PathSegmentCollection segments = GetNewPath(_canvas, colorNumber++);
 
+            PathSegmentCollection? segments = null;
             int x = 10;
           
             await _sensorClient.StartAsync(_cancellationTokenSource.Token);
@@ -75,18 +76,20 @@ public partial class MainViewModel
             await foreach (var data in stream)
             {
                 double xVal = x += 4;
-                if (xVal >= _canvas.ActualWidth)
+                double yVal = height - (data.Value * multiplicator);
+                if ((segments is null) || (xVal >= _canvas.ActualWidth))
                 {
-                    segments = GetNewPath(_canvas, colorNumber++);
                     x = 10;
                     xVal = x += 4;
+                    Point startPoint = new(xVal, yVal);
+                    segments = GetNewPath(_canvas, startPoint, colorNumber++);
                 }
-                double yVal = height - (data.Value * multiplicator);
-
-                LineSegment segment = new();
-                segment.Point = new(xVal, yVal);
-                segments.Add(segment);
-
+                else
+                {
+                    LineSegment segment = new();
+                    segment.Point = new(xVal, yVal);
+                    segments.Add(segment);
+                }
             }
         }
         catch (OperationCanceledException)
